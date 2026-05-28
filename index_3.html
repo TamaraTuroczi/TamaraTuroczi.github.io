@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamara Turóczi — Cinematographer</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#ffffff;--text:#111;--muted:#555;--border:rgba(0,0,0,0.12);--font:'Jost',sans-serif;--serif:'Cormorant Garamond',serif;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:300;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.5rem;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);transition:opacity .5s,transform .5s;}
+nav.hidden{opacity:0;pointer-events:none;transform:translateY(-10px);}
+.nav-logo{font-family:var(--font);font-size:1rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:#000;text-decoration:none;}
+.nav-logo span{font-size:.85rem;letter-spacing:.18em;margin-left:.6rem;opacity:1;color:#000;font-weight:400;}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{font-size:.85rem;letter-spacing:.2em;text-transform:uppercase;color:#000;text-decoration:none;opacity:1;font-weight:400;transition:opacity .3s;}
+.nav-links a:hover,.nav-links a.active{opacity:.5;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1px;background:#111;transition:transform .3s,opacity .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;inset:0;background:#fff;z-index:101;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-size:1rem;letter-spacing:.25em;text-transform:uppercase;color:#111;text-decoration:none;font-weight:300;}
+.page{display:none;}
+
+/* ENTER */
+#enter-page{display:block;}
+#enter{position:relative;height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#111;}
+#enter img.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.35) 100%);}
+.hero-topleft{position:absolute;top:22%;left:15rem;z-index:10;opacity:0;transform:translateY(-8px);transition:opacity 1s ease .1s,transform 1s ease .1s;cursor:pointer;}
+.hero-topleft.visible{opacity:1;transform:translateY(0);}
+.hero-topleft a{text-decoration:none;display:block;}
+.hero-topleft-name{font-family:var(--font);font-size:1.6rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:#fff;display:block;}
+.hero-topleft-sub{font-size:1rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8);display:block;margin-top:.35rem;}
+.hero-content{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:flex-end;flex:1;padding-bottom:5rem;padding-right:12rem;}
+.enter-btn{display:inline-block;font-size:.6rem;font-weight:300;letter-spacing:.35em;text-transform:uppercase;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.5);padding:.9rem 2.5rem;opacity:0;transform:translateY(10px);transition:opacity 1s ease .4s,transform 1s ease .4s,border-color .3s,background .3s;}
+.enter-btn.visible{opacity:1;transform:translateY(0);}
+.enter-btn:hover{border-color:#fff;background:rgba(255,255,255,.08);}
+
+/* WORK */
+#work{padding:5.5rem 0 5rem;}
+.section-label{font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:#111;font-weight:400;}
+.work-container{max-width:900px;margin:0 auto;}
+.work-hero{width:100%;overflow:hidden;margin-bottom:3px;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s;}
+.work-hero.visible{opacity:1;transform:translateY(0);}
+.work-hero img{width:100%;height:420px;object-fit:cover;display:block;}
+
+.project-row{position:relative;cursor:pointer;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s;margin-bottom:3px;}
+.project-row.visible{opacity:1;transform:translateY(0);}
+.row-images{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;transition:opacity .35s;}
+.row-img{aspect-ratio:16/10;overflow:hidden;background:#e0e0e0;}
+.row-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.project-row:hover .row-img img{transform:scale(1.03);}
+.row-hover-overlay{position:absolute;inset:0;background:rgba(255,255,255,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .35s;pointer-events:none;}
+.project-row:hover .row-hover-overlay{opacity:1;}
+.project-row:hover .row-images{opacity:0;}
+.row-num{font-size:.58rem;letter-spacing:.25em;color:#111;font-weight:400;}
+.row-title{font-family:var(--font);font-size:clamp(1.4rem,2.5vw,2.2rem);font-weight:200;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:0 2rem;color:#111;}
+.row-type{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:#444;font-weight:400;}
+.row-arrow{font-size:.7rem;color:#111;margin-top:.3rem;}
+
+/* PROJECT OVERLAY */
+.project-overlay{position:fixed;inset:0;background:#fff;z-index:200;overflow-y:auto;transform:translateY(100%);transition:transform .65s cubic-bezier(.76,0,.24,1);}
+.project-overlay.open{transform:translateY(0);}
+.ov-close{position:fixed;top:1.6rem;right:2.5rem;font-size:.9rem;letter-spacing:.28em;text-transform:uppercase;color:#000;background:none;border:none;cursor:pointer;opacity:1;font-weight:400;transition:opacity .3s;z-index:201;}
+.ov-close:hover{opacity:.4;}
+.ov-body{padding:5rem 2.5rem 5rem;max-width:1100px;margin:0 auto;text-align:center;}
+.ov-title{font-family:var(--font);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:200;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem;line-height:1.1;color:#000;}
+.ov-type{font-size:.9rem;letter-spacing:.25em;text-transform:uppercase;color:#000;margin-bottom:.5rem;font-weight:400;}
+.ov-desc{font-size:1rem;line-height:2;color:#000;letter-spacing:.03em;margin-bottom:2.5rem;white-space:pre-line;text-align:center;}
+.ov-main{width:100%;aspect-ratio:16/9;background:#e8e8e8;margin-bottom:3px;overflow:hidden;}
+.ov-main img,.ov-main video{width:100%;height:100%;object-fit:cover;display:block;}
+.ov-main img{cursor:zoom-in;}
+.ov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:3rem;text-align:left;}
+.ov-cell{aspect-ratio:16/10;background:#e8e8e8;overflow:hidden;position:relative;cursor:pointer;}
+.ov-cell img,.ov-cell video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.ov-cell img:hover{transform:scale(1.04);}
+.ov-cell:hover::after{content:'⊕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.9);background:rgba(0,0,0,.2);pointer-events:none;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;display:none;align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;}
+.lightbox-close{position:absolute;top:1.5rem;right:2rem;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.6;transition:opacity .3s;background:none;border:none;}
+.lightbox-close:hover{opacity:1;}
+
+/* STILLS */
+#stills{padding:5.5rem 0 5rem;}
+.stills-grid{max-width:900px;margin:0 auto;columns:3;column-gap:3px;}
+.still-item{break-inside:avoid;margin-bottom:3px;overflow:hidden;cursor:zoom-in;position:relative;}
+.still-item img{width:100%;display:block;transition:transform .4s;}
+.still-item:hover img{transform:scale(1.03);}
+.still-item:hover::after{content:'⊕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.9);background:rgba(0,0,0,.2);}
+
+/* ABOUT */
+#about{min-height:100vh;padding:6rem 2.5rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.about-photo{position:sticky;top:6rem;overflow:hidden;}
+.about-photo img{width:100%;display:block;filter:grayscale(100%);}
+.about-text p{font-size:.9rem;line-height:2;color:#222;letter-spacing:.02em;margin-bottom:1.5rem;}
+.about-text a{color:#111;font-size:.9rem;}
+.about-details{margin-top:2.5rem;border-top:1px solid var(--border);padding-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;}
+.about-detail label{display:block;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:#555;margin-bottom:.4rem;font-weight:400;}
+.about-detail p{font-size:.82rem;color:#111;line-height:1.6;font-weight:300;}
+
+footer{padding:2.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-links{display:flex;gap:2rem;}
+.footer-links a{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#111;text-decoration:none;font-weight:400;transition:opacity .3s;}
+.footer-links a:hover{opacity:.5;}
+.footer-copy{font-size:.56rem;letter-spacing:.15em;color:#666;}
+
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;}
+  .nav-links{gap:1.5rem;}
+  #work,#stills,#about{padding:5rem 1.5rem 4rem;}
+  #about{grid-template-columns:1fr;gap:3rem;}
+  .about-photo{position:static;}
+  .stills-grid{columns:2;}
+  footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+  .ov-body{padding:4rem 1.5rem 4rem;}
+  .ov-grid{grid-template-columns:1fr 1fr;}
+  .ov-close{right:1.5rem;}
+  .hero-topleft{left:2rem;top:18%;}
+  .hero-topleft-name{font-size:1.1rem;}
+  .hero-topleft-sub{font-size:.7rem;}
+  .hero-content{padding-right:2rem;padding-bottom:3rem;}
+  .work-hero img{height:auto;object-fit:contain;background:#000;}
+}
+@media(max-width:560px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .stills-grid{columns:1;}
+  .ov-grid{grid-template-columns:1fr;}
+  #enter{padding:0;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="hidden">
+  <a href="#" class="nav-logo" onclick="return showPage('enter')">Tamara Turóczi <span>Cinematographer</span></a>
+  <ul class="nav-links">
+    <li><a href="#" id="nav-work" onclick="return showPage('work')">Selected Work</a></li>
+    <li><a href="#" id="nav-stills" onclick="return showPage('stills')">Stills</a></li>
+    <li><a href="#" id="nav-about" onclick="return showPage('about')">About</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="return mobileNav('work')">Selected Work</a>
+  <a href="#" onclick="return mobileNav('stills')">Stills</a>
+  <a href="#" onclick="return mobileNav('about')">About</a>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="project-overlay" id="projectOverlay">
+  <button class="ov-close" onclick="closeOverlay()">Close ✕</button>
+  <div class="ov-body">
+    <h1 class="ov-title" id="ovTitle"></h1>
+    <p class="ov-type" id="ovType"></p>
+    <p class="ov-desc" id="ovDesc"></p>
+    <div class="ov-main" id="ovMain"></div>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+</div>
+
+<!-- ENTER -->
+<div id="enter-page" class="page">
+  <section id="enter">
+    <img class="hero-bg" src="enter-bg.jpg" alt="">
+    <div class="hero-overlay"></div>
+    <div class="hero-topleft" id="heroTopLeft">
+      <a href="#" onclick="return showPage('work')">
+        <span class="hero-topleft-name">Tamara Turóczi</span>
+        <span class="hero-topleft-sub">Cinematographer</span>
+      </a>
+    </div>
+    <div class="hero-content">
+      <a href="#" class="enter-btn" id="enterBtn" onclick="return showPage('work')">Enter Site</a>
+    </div>
+  </section>
+</div>
+
+<!-- WORK -->
+<div id="work-page" class="page">
+  <section id="work">
+    <p class="section-label" style="max-width:900px;margin:0 auto 1.5rem;">Selected Work</p>
+    <div class="work-container">
+      <div class="work-hero" id="workHero"><img src="featured.jpg" alt="Featured"></div>
+
+      <div class="project-row" onclick="openProject('hot-girl-walk')">
+        <div class="row-images">
+          <div class="row-img"><img src="hot-girl-walk-1.jpg" alt=""></div>
+          <div class="row-img"><img src="hot-girl-walk-2.jpg" alt=""></div>
+          <div class="row-img"><img src="hot-girl-walk-3.jpg" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">01</span><h2 class="row-title">Hot Girl Walk</h2><p class="row-type">Narrative Short</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('queer-before-the-fall')">
+        <div class="row-images">
+          <div class="row-img"><img src="queer-1.jpg" alt=""></div>
+          <div class="row-img"><img src="queer-2.jpg" alt=""></div>
+          <div class="row-img"><img src="queer-3.jpg" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">02</span><h2 class="row-title">Queer Before the Fall</h2><p class="row-type">Narrative Short</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('anatomy-of-a-ghost')">
+        <div class="row-images">
+          <div class="row-img"><img src="anatomy-1.jpg" alt=""></div>
+          <div class="row-img"><img src="anatomy-2.jpg" alt=""></div>
+          <div class="row-img"><img src="anatomy-3.jpg" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">03</span><h2 class="row-title">Anatomy of a Ghost</h2><p class="row-type">Narrative Short</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('illusion-of-love')">
+        <div class="row-images">
+          <div class="row-img"><img src="illusion-1.png" alt=""></div>
+          <div class="row-img"><img src="illusion-2.png" alt=""></div>
+          <div class="row-img"><img src="illusion-3.png" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">04</span><h2 class="row-title">Illusion of Love</h2><p class="row-type">Narrative Short</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('3099')">
+        <div class="row-images">
+          <div class="row-img"><img src="3099-1.png" alt=""></div>
+          <div class="row-img"><img src="3099-2.png" alt=""></div>
+          <div class="row-img"><img src="3099-3.png" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">05</span><h2 class="row-title">#3099</h2><p class="row-type">Short Film</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('apostol-live')">
+        <div class="row-images">
+          <div class="row-img"><img src="apostol-live-1.jpg" alt=""></div>
+          <div class="row-img"><img src="apostol-live-2.jpg" alt=""></div>
+          <div class="row-img"><img src="apostol-live-3.jpg" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">06</span><h2 class="row-title">As Long As I Got You — Apostol</h2><p class="row-type">Live Performance</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('apostol-cover')">
+        <div class="row-images">
+          <div class="row-img"><img src="apostol-cover-1.jpg" alt=""></div>
+          <div class="row-img"><img src="apostol-cover-2.jpg" alt=""></div>
+          <div class="row-img"><img src="apostol-cover-3.jpg" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">07</span><h2 class="row-title">Apostol — Daniel Caesar &amp; Lauryn Hill Cover</h2><p class="row-type">Music Video</p><span class="row-arrow">→</span></div>
+      </div>
+
+      <div class="project-row" onclick="openProject('midnight-climax')">
+        <div class="row-images">
+          <div class="row-img"><img src="midnight-1.png" alt=""></div>
+          <div class="row-img"><img src="midnight-2.png" alt=""></div>
+          <div class="row-img"><img src="midnight-3.png" alt=""></div>
+        </div>
+        <div class="row-hover-overlay"><span class="row-num">08</span><h2 class="row-title">Midnight Climax</h2><p class="row-type">Short Film</p><span class="row-arrow">→</span></div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/turoczitamara/" target="_blank">Instagram</a>
+      <a href="https://vimeo.com/user48798809" target="_blank">Vimeo</a>
+      <a href="https://www.imdb.com/name/nm11277138/" target="_blank">IMDb</a>
+    </div>
+    <p class="footer-copy">© 2025 Tamara Turóczi</p>
+  </footer>
+</div>
+
+<!-- STILLS -->
+<div id="stills-page" class="page">
+  <section id="stills">
+    <p class="section-label" style="max-width:900px;margin:0 auto 1.5rem;">Stills</p>
+    <div class="stills-grid">
+      <div class="still-item" onclick="openLightbox('still-1.JPG')"><img src="still-1.JPG" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-2.JPG')"><img src="still-2.JPG" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-3.jpg')"><img src="still-3.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-4.jpg')"><img src="still-4.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-5.jpg')"><img src="still-5.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-6.jpg')"><img src="still-6.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-7.jpg')"><img src="still-7.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-8.jpg')"><img src="still-8.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-9.jpg')"><img src="still-9.jpg" alt=""></div>
+      <div class="still-item" onclick="openLightbox('still-10.jpeg')"><img src="still-10.jpeg" alt=""></div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/turoczitamara/" target="_blank">Instagram</a>
+      <a href="https://vimeo.com/user48798809" target="_blank">Vimeo</a>
+      <a href="https://www.imdb.com/name/nm11277138/" target="_blank">IMDb</a>
+    </div>
+    <p class="footer-copy">© 2025 Tamara Turóczi</p>
+  </footer>
+</div>
+
+<!-- ABOUT -->
+<div id="about-page" class="page">
+  <section id="about">
+    <div class="about-photo">
+      <img src="about-photo.jpg" alt="Tamara Turóczi" onerror="this.style.display='none'">
+    </div>
+    <div class="about-text">
+      <p>Tamara Turoczi is a Hungarian Cinematographer based between London and Budapest, working internationally.</p>
+      <p>With a BA in Film and a Master's in Cinematography from Goldsmiths, University of London, Tamara brings a strong narrative sensibility shaped by years of experience in the HETV camera department and independent film.</p>
+      <p>Her work focuses on visually sophisticated storytelling, exploring the emotional and psychological complexity of human experience. She is drawn to character-driven narratives and creative collaborations that value atmosphere, nuance, and a distinct visual voice.</p>
+      <p>Tamara was a mentee of the BSC Mentorship Scheme (2024–2025). She works closely with directors, producers, and creative teams across short films, music videos, and branded content.</p>
+      <p>Owner-operator with Sony FX6 and Typoch Simera-C primes.</p>
+      <p>Get in touch: <a href="mailto:info@tamaraturoczi.com">info@tamaraturoczi.com</a></p>
+      <div class="about-details">
+        <div class="about-detail"><label>Education</label><p>MA Cinematography<br>Goldsmiths, University of London</p></div>
+        <div class="about-detail"><label>Mentorship</label><p>BSC Mentorship Scheme<br>2024–2025</p></div>
+        <div class="about-detail"><label>Equipment</label><p>Sony FX6<br>Typoch Simera-C Primes</p></div>
+        <div class="about-detail"><label>Based</label><p>London & Budapest<br>Working Internationally</p></div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/turoczitamara/" target="_blank">Instagram</a>
+      <a href="https://vimeo.com/user48798809" target="_blank">Vimeo</a>
+      <a href="https://www.imdb.com/name/nm11277138/" target="_blank">IMDb</a>
+    </div>
+    <p class="footer-copy">© 2025 Tamara Turóczi</p>
+  </footer>
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function mobileNav(p){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  showPage(p); return false;
+}
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.style.display='none');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const el=document.getElementById(p+'-page');
+  if(el) el.style.display='block';
+  const nl=document.getElementById('nav-'+p);
+  if(nl) nl.classList.add('active');
+  const nav=document.getElementById('mainNav');
+  if(p==='enter') nav.classList.add('hidden');
+  else nav.classList.remove('hidden');
+  window.scrollTo(0,0);
+  if(p==='work'){
+    document.getElementById('workHero').classList.remove('visible');
+    document.querySelectorAll('.project-row').forEach(r=>r.classList.remove('visible'));
+    requestAnimationFrame(()=>requestAnimationFrame(animateWork));
+  }
+  return false;
+}
+showPage('enter');
+
+function animateWork(){
+  setTimeout(()=>document.getElementById('workHero').classList.add('visible'),80);
+  document.querySelectorAll('.project-row').forEach((r,i)=>{
+    setTimeout(()=>r.classList.add('visible'),200+i*100);
+  });
+}
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('heroTopLeft').classList.add('visible'),200);
+  setTimeout(()=>document.getElementById('enterBtn').classList.add('visible'),500);
+});
+
+// Helper: generate numbered filenames
+function range(prefix, count, ext){ return Array.from({length:count},(_,i)=>`${prefix}${i+1}.${ext}`); }
+
+function isVideo(src){ return /\.(mov|mp4|webm)$/i.test(src); }
+
+const projects={
+  'hot-girl-walk':{
+    title:'Hot Girl Walk', type:'Narrative Short',
+    desc:'COMING SOON\nNarrative Short\nProd. HGW\nDir. Atalanta Maas\nShot on: Sony Venice | Blackwing Tribe 7, Canon K35 Zoom',
+    main:'hot-girl-walk-still-1.jpg',
+    imgs: range('hot-girl-walk-still-',12,'jpg').slice(1)
+  },
+  'queer-before-the-fall':{
+    title:'Queer Before the Fall', type:'Narrative Short',
+    desc:'COMING SOON\nNarrative Short\nProd. Independent\nDir. Thalia Kent-Egan\nShot on: Sony FX6 | Zeiss CP. 3',
+    main:'queer-still-1.jpg',
+    imgs: range('queer-still-',14,'jpg').slice(1)
+  },
+  'anatomy-of-a-ghost':{
+    title:'Anatomy of a Ghost', type:'Narrative Short',
+    desc:'COMING SOON\nNarrative Short\nDir. Konstantina Kelesi\nProd. Independent\nShot on: Sony FX6 | Zeiss Vintage Contax Primes',
+    main:'anatomy-still-1.jpg',
+    imgs: range('anatomy-still-',11,'jpg').slice(1)
+  },
+  'illusion-of-love':{
+    title:'Illusion of Love', type:'Narrative Short',
+    desc:'Narrative Short\nProd. Independent\nDir. Roxie Yuxin Lin\nShot on: ARRI Alexa Mini | Zeiss Superspeed MKIII',
+    main:'illusion-still-1.mov',
+    imgs: [
+      'illusion-still-2.mov',
+      'illusion-still-3.mov',
+      'illusion-still-1.png',
+      ...range('illusion-still-',15,'png').slice(1)
+    ]
+  },
+  '3099':{
+    title:'#3099', type:'Short Film',
+    desc:'Short Film\nProd. Goldsmiths\nDir. Xiao Jiao\nShot on: ARRI AMIRA | XEEN PRIME SET\n\nSpecial Jury Prize Winner and Outstanding Award from ISFVF - 2022\nBest Short Film for International Communication Programme at 10th Chongqing Youth Film Festival',
+    main:'3099-video-1.mov',
+    imgs: [
+      '3099-video-2.mov',
+      '3099-still-1.png',
+      ...range('3099-still-',21,'png').slice(1)
+    ]
+  },
+  'apostol-live':{
+    title:'As Long As I Got You — Apostol', type:'Live Performance',
+    desc:'Independent\nArtist: Apostol',
+    main:'apostol-live-still-1.jpg',
+    imgs: range('apostol-live-still-',6,'jpg').slice(1)
+  },
+  'apostol-cover':{
+    title:'Apostol — Daniel Caesar & Lauryn Hill Cover', type:'Music Video',
+    desc:'Music Video\nIndependent Artist',
+    main:'apostol-cover-still-1.jpg',
+    imgs: range('apostol-cover-still-',6,'jpg').slice(1)
+  },
+  'midnight-climax':{
+    title:'Midnight Climax', type:'Short Film',
+    desc:'Short Film\nProd. Goldsmiths\nDir. Ekaterina Saiapina\nShot on: ARRI AMIRA | SONY Zoom Lens',
+    main:'midnight-still-1.png',
+    imgs: range('midnight-still-',13,'png').slice(1)
+  }
+};
+
+function mediaEl(src, controls=false){
+  if(isVideo(src)){
+    return `<video src="${src}" ${controls?'controls':'muted loop autoplay'} playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>`;
+  }
+  return `<img src="${src}" alt="" onclick="openLightbox('${src}')" style="width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;">`;
+}
+
+function openProject(id){
+  const p=projects[id]; if(!p) return;
+  document.getElementById('ovTitle').textContent=p.title;
+  document.getElementById('ovType').textContent=p.type;
+  document.getElementById('ovDesc').textContent=p.desc;
+  document.getElementById('ovMain').innerHTML=mediaEl(p.main, true);
+  document.getElementById('ovGrid').innerHTML=p.imgs.map(src=>`
+    <div class="ov-cell" ${isVideo(src)?'':''}>
+      ${mediaEl(src, false)}
+    </div>`).join('');
+  document.getElementById('projectOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeOverlay(){
+  document.getElementById('projectOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  // Stop all videos
+  document.querySelectorAll('#projectOverlay video').forEach(v=>{ v.pause(); v.src=''; });
+}
+function openLightbox(src){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeOverlay(); closeLightbox(); }});
+</script>
+</body>
+</html>
